@@ -1,0 +1,34 @@
+ARG PROJECT_DIR=/ivwcli
+ARG BINARY_NAME=ivwcli
+
+FROM --platform=${BUILDPLATFORM} golang:1.19.4-alpine3.17 AS deps
+
+ARG PROJECT_DIR
+
+COPY . $PROJECT_DIR
+ENV CGO_ENABLED=0
+
+WORKDIR $PROJECT_DIR
+RUN go mod download
+
+
+FROM deps AS build
+
+ARG PROJECT_DIR
+ARG TARGETARCH
+ARG TARGETOS
+ARG BINARY_NAME
+
+RUN --mount=type=cache,target=/root/.cache/go-build GOOS=${TARGETOS} GOARCH=${TARGETARCH} \
+    go build -o ${PROJECT_DIR}/${BINARY_NAME}
+
+FROM alpine:3.17.0 AS main
+
+ARG PROJECT_DIR
+ARG BINARY_NAME
+
+ENV PATH=${PATH}:${PROJECT_DIR}/
+
+COPY --from=build ${PROJECT_DIR}/${BINARY_NAME} ${PROJECT_DIR}/${BINARY_NAME}
+
+ENTRYPOINT ["ivwcli"]

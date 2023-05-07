@@ -1,0 +1,26 @@
+{
+  "unique_recipe_count": 2,
+  "count_per_recipe": [
+    {
+      "recipe": "Creamy Dill Chicken",
+      "count": 639
+    },
+    {
+      "recipe": "Spicy Taco",
+      "count": 274
+    }
+  ],
+  "busiest_postcode": {
+    "postcode": "10224",
+    "delivery_count": 639
+  },
+  "count_per_postcode_and_time": {
+    "postcode": "10335",
+    "from": "4PM",
+    "to": "10PM",
+    "delivery_count": 144
+  },
+  "match_by_name": [
+    "Creamy Dill Chicken"
+  ]
+}
